@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createWhisper, getWhispers, likeWhisper, addComment } from '../controllers/whisper.controller';
+import { createWhisper, getWhispers, likeWhisper, addComment } from '../controllers/whisper.controller.js';
 
 const router = Router();
 

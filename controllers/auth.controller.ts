@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { uniqueNamesGenerator, adjectives, animals, colors } from 'unique-names-generator';
-import User from '../models/User';
+import User from '../models/User.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'romantic-secret-key-123';
 

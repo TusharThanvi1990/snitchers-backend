@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import Whisper from '../models/Whisper';
-import User from '../models/User';
+import Whisper from '../models/Whisper.js';
+import User from '../models/User.js';
 
 // For typing purposes if needed later
 interface AuthenticatedRequest extends Request {
