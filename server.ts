@@ -57,7 +57,8 @@ async function connectToDatabase() {
     console.log('✅ Connected to the heart of the database (MongoDB)');
   } catch (err) {
     dbConnected = false;
-    console.error('❌ Database connection error:', err.message);
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    console.error('❌ Database connection error:', errorMessage);
     console.error('⚠️  MONGO_URI:', MONGO_URI);
     console.error('⚠️  Retrying connection in 5 seconds...');
     
