@@ -50,9 +50,9 @@ async function connectToDatabase() {
     catch (err) {
         dbConnected = false;
         const errorMessage = err instanceof Error ? err.message : String(err);
-        console.error('❌ Database connection error:', errorMessage);
-        console.error('⚠️  MONGO_URI:', MONGO_URI);
-        console.error('⚠️  Retrying connection in 5 seconds...');
+        console.error('❌ Database connection failed:', errorMessage);
+        console.error('⚠️  Connection string:', MONGO_URI ? MONGO_URI.substring(0, 30) + '...' : 'NOT SET');
+        console.error('⚠️  Will retry in 5 seconds...');
         // Retry connection every 5 seconds
         setTimeout(connectToDatabase, 5000);
     }
