@@ -26,6 +26,8 @@ app.get('/', (req, res) => {
 // Start server immediately
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
+  console.log(`🔌 Attempting MongoDB connection...`);
+  console.log(`📍 MONGO_URI: ${MONGO_URI ? MONGO_URI.substring(0, 50) + '...' : 'NOT SET'}`);
 });
 
 // Connect to MongoDB asynchronously
