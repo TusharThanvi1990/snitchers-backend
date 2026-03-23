@@ -15,7 +15,12 @@ const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/snitchers'
 let dbConnected = false;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  credentials: false,
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 // Health check endpoint - shows database status
