@@ -23,27 +23,17 @@ app.get('/', (req, res) => {
   res.send('Snitchers API is whispering...');
 });
 
-// Connect to MongoDB
+// Start server immediately
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
+});
+
+// Connect to MongoDB asynchronously
 mongoose.connect(MONGO_URI)
   .then(() => {
-    console.log('Connected to the heart of the database (MongoDB)');
-    startServer();
+    console.log('✅ Connected to the heart of the database (MongoDB)');
   })
   .catch((err) => {
-    console.error('Database connection error:', err.message);
-    console.error('MONGO_URI:', MONGO_URI);
-    process.exit(1);
+    console.error('❌ Database connection error:', err.message);
+    console.error('⚠️  MONGO_URI:', MONGO_URI);
   });
-
-// Start the server
-function startServer() {
-  app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`);
-  });
-}
-
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-  process.exit(1);
-});
