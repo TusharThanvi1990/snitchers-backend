@@ -12,6 +12,7 @@ export interface IWhisper extends Document {
   likesCount: number;
   comments: IComment[];
   commentsCount: number;
+  isFlagged: boolean;
   createdAt: Date;
 }
 
@@ -27,6 +28,7 @@ const WhisperSchema: Schema = new Schema({
     }
   ],
   commentsCount: { type: Number, default: 0 },
+  isFlagged: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }
 });
 

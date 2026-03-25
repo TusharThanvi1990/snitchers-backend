@@ -89,3 +89,61 @@ export const addComment = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Error adding comment' });
   }
 };
+
+export const deleteWhisper = async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const adminUser = req.user;
+
+    const whisper = await Whisper.findById(id).populate('user');
+    if (!whisper) {
+      return res.status(404).json({ message: 'Whisper not found.' });
+    }
+
+    // Permission Check
+    if (adminUser.role !== 'super_admin') {
+      // Admin check: Must be from the same college
+      const author = whisper.user as any;
+      if (author.college !== adminUser.college) {
+        return res.status(403).json({ message: 'Forbidden: You can only delete whispers from your organization.' });
+      }
+    }
+
+    await Whisper.findByIdAndDelete(id);
+    res.json({ message: 'Whisper removed from the shadows.' });
+  } catch (error) {
+    console.error('Delete Whisper Error:', error);
+    res.status(500).json({ message: 'Error deleting whisper' });
+  }
+};
+
+export const flagWhisper = async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const adminUser = req.user;
+
+    const whisper = await Whisper.findById(id).populate('user');
+    if (!whisper) {
+      return res.status(404).json({ message: 'Whisper not found.' });
+    }
+
+    // Permission Check
+    if (adminUser.role !== 'super_admin') {
+      // Admin check: Must be from the same college
+      const author = whisper.user as any;
+      if (author.college !== adminUser.college) {
+        return res.status(403).json({ message: 'Forbidden: You can only flag whispers from your organization.' });
+      }
+    }
+
+    const updatedWhisper = await Whisper.findByIdAndUpdate(
+      id,
+      { isFlagged: true },
+      { new: true }
+    );
+    res.json({ message: 'Whisper has been flagged for moderation.', whisper: updatedWhisper });
+  } catch (error) {
+    console.error('Flag Whisper Error:', error);
+    res.status(500).json({ message: 'Error flagging whisper' });
+  }
+};
