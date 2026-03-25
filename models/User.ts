@@ -9,6 +9,7 @@ export interface IUser extends Document {
   role: 'user' | 'admin' | 'super_admin';
   isSuspended: boolean;
   likedWhispers: mongoose.Types.ObjectId[];
+  activeChats: mongoose.Types.ObjectId[];
   createdAt: Date;
 }
 
@@ -21,6 +22,7 @@ const UserSchema: Schema = new Schema({
   role: { type: String, enum: ['user', 'admin', 'super_admin'], default: 'user' },
   isSuspended: { type: Boolean, default: false },
   likedWhispers: [{ type: Schema.Types.ObjectId, ref: 'Whisper', default: [] }],
+  activeChats: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],
   createdAt: { type: Date, default: Date.now }
 });
 
