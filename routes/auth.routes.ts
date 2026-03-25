@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { register, login, getName, deleteUser, suspendUser, getStats } from '../controllers/auth.controller.js';
+import { register, login, getName, deleteUser, suspendUser, getStats, getUsers, updateUserRole } from '../controllers/auth.controller.js';
 import { protect, authorize } from '../middleware/auth.middleware.js';
 
 const router = Router();
@@ -12,5 +12,7 @@ router.post('/login', login);
 router.get('/admin/stats', protect, authorize('admin', 'super_admin'), getStats);
 router.delete('/users/:id', protect, authorize('admin', 'super_admin'), deleteUser);
 router.patch('/users/:id/suspend', protect, authorize('super_admin'), suspendUser);
+router.get('/users', protect, authorize('super_admin'), getUsers);
+router.patch('/users/:id/role', protect, authorize('super_admin'), updateUserRole);
 
 export default router;

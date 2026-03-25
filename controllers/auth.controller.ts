@@ -207,3 +207,45 @@ export const getStats = async (req: any, res: Response) => {
     res.status(500).json({ message: 'Error fetching statistics' });
   }
 };
+
+export const getUsers = async (req: any, res: Response) => {
+  try {
+    const adminUser = req.user;
+    if (adminUser.role !== 'super_admin') {
+      return res.status(403).json({ message: 'Forbidden: Super Admin only.' });
+    }
+
+    const users = await User.find({}).sort({ createdAt: -1 });
+    res.json(users);
+  } catch (error) {
+    console.error('Get Users Error:', error);
+    res.status(500).json({ message: 'Error fetching users' });
+  }
+};
+
+export const updateUserRole = async (req: any, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { role, college } = req.body;
+    const adminUser = req.user;
+
+    if (adminUser.role !== 'super_admin') {
+      return res.status(403).json({ message: 'Forbidden: Super Admin only.' });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { role, college },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.error('Update User Role Error:', error);
+    res.status(500).json({ message: 'Error updating user role' });
+  }
+};
