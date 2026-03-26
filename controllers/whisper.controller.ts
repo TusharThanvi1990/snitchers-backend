@@ -50,7 +50,7 @@ export const likeWhisper = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const isLiked = user.likedWhispers.includes(id as any);
+    const isLiked = user.likedWhispers.some(wId => wId.toString() === id);
     let whisper;
 
     if (isLiked) {
